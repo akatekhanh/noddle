@@ -1,9 +1,12 @@
+import { Linkedin } from "lucide-react";
+
 interface Member {
   name: string;
   initials: string;
   role: string;
   bio?: string;
   imageUrl?: string;
+  linkedin?: string;
 }
 
 const members: Member[] = [
@@ -11,22 +14,25 @@ const members: Member[] = [
     name: "Khanh Ngo",
     initials: "KN",
     role: "Founder",
-    bio: "Started Noddle to ship production data & AI products end-to-end. Brings streaming-pipeline depth — Kafka, Flink, Spark Structured Streaming — into the catalogue. Sets product direction and owns the roadmap.",
+    bio: "Started Noddle to ship production data & AI products end-to-end. Building the data foundation, a GPX tracker & simulation engine, and enterprise AI asset management — skills, prompts, MCPs, commands, settings, hooks. Sets product direction and owns the roadmap.",
     imageUrl: "/team/khanh.webp",
+    linkedin: "https://www.linkedin.com/in/khanh-ngo0212/",
   },
   {
     name: "Khoi Nguyen",
     initials: "KH",
-    role: "Principal Engineer",
-    bio: "Owns backend systems and infrastructure across the catalogue. Backend Team Leader at Swop with AWS and microservices background — keeps APIs, billing flows, and deploy pipelines production-ready.",
+    role: "CTO",
+    bio: "Owns technology direction and platform infrastructure across the catalogue. Data Expert at VIB leading a team of 5 in a vibe-coding culture — building the Databricks Lakehouse foundation and the bank's first MLOps framework. AWS Solutions Architect & Databricks Certified, with backend leadership from Swop. Keeps APIs, deploys, and AI pipelines production-ready.",
     imageUrl: "/team/khoi.webp",
+    linkedin: "https://www.linkedin.com/in/kh%C3%B4i-nguy%E1%BB%85n-863b99148/",
   },
   {
     name: "Tam Duong Ngoc",
     initials: "TD",
-    role: "Principal Engineer",
-    bio: "Designs the data architecture behind every product. Leads data at VIB (team of 5, vibe-coding culture) with LakeHouse depth — Databricks, EMR, LakeFormation, Glue — feeding into Noddle's medallion stack.",
+    role: "Chief Architect",
+    bio: "Designs the data architecture behind every product. Data Solution Architect at VIB, formerly Lead Data Engineer at VNGGames and Senior Data Engineer at Techcombank — streaming-pipeline depth in Python, PostgreSQL, and Kafka, feeding Noddle's medallion stack.",
     imageUrl: "/team/tam.webp",
+    linkedin: "https://www.linkedin.com/in/tam-duong-054982111/",
   },
 ];
 
@@ -105,9 +111,22 @@ export const Team = () => {
                   <h3 className="font-display text-2xl sm:text-3xl tracking-tight leading-tight">
                     {m.name}
                   </h3>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary/80">
-                    {m.role}
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary/80">
+                      {m.role}
+                    </p>
+                    {m.linkedin && (
+                      <a
+                        href={m.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${m.name} on LinkedIn`}
+                        className="text-muted-foreground hover:text-primary transition-colors leading-none"
+                      >
+                        <Linkedin className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
                 </div>
 
                 {/* Bio */}

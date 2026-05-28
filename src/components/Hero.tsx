@@ -190,7 +190,7 @@ export const Hero = () => {
         </div>
 
         {/* Dot indicators */}
-        <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-[58%] flex items-center gap-2">
+        <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-2 md:bottom-3 z-10 flex items-center gap-2">
           {peekShots.map((shot, i) => (
             <button
               key={shot.path}
