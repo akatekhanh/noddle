@@ -1,146 +1,96 @@
 import { useState } from "react";
 import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
-import { LogoIcon } from "./Icons";
+import { Logo } from "./Logo";
 
 interface RouteProps {
   href: string;
   label: string;
 }
 
-const routeList: RouteProps[] = [
-  {
-    href: "#features",
-    label: "Features",
-  },
-  {
-    href: "#testimonials",
-    label: "Testimonials",
-  },
-  {
-    href: "#pricing",
-    label: "Pricing",
-  },
-  {
-    href: "#faq",
-    label: "FAQ",
-  },
+const routes: RouteProps[] = [
+  { href: "#about", label: "About" },
+  { href: "#products", label: "Products" },
+  { href: "#showcase", label: "Showcase" },
+  { href: "#team", label: "Team" },
+  { href: "#engineering", label: "Engineering" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
-      <NavigationMenu className="mx-auto">
-        <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between ">
-          <NavigationMenuItem className="font-bold flex">
-            <a
-              rel="noreferrer noopener"
-              href="/"
-              className="ml-2 font-bold text-xl flex"
-            >
-              <LogoIcon />
-              ShadcnUI/React
-            </a>
-          </NavigationMenuItem>
+    <header className="sticky top-3 z-40 w-full">
+      <div className="container">
+        <div className="mx-auto max-w-5xl flex items-center justify-between gap-4 h-12 pl-5 pr-2 bg-background/85 backdrop-blur-md border border-border rounded-full shadow-lg shadow-black/30 dark:shadow-black/50">
+          <a href="/" className="flex items-center gap-2 group shrink-0">
+            <Logo size={20} className="text-foreground" />
+            <span className="font-display text-lg tracking-tighter leading-none">
+              Noddle
+            </span>
+            <span className="hidden sm:inline eyebrow opacity-70 group-hover:opacity-100 transition-opacity ml-1">
+              est. 2026
+            </span>
+          </a>
 
-          {/* mobile */}
-          <span className="flex md:hidden">
-            <ModeToggle />
-
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
-              <SheetTrigger className="px-2">
-                <Menu
-                  className="flex md:hidden h-5 w-5"
-                  onClick={() => setIsOpen(true)}
-                >
-                  <span className="sr-only">Menu Icon</span>
-                </Menu>
-              </SheetTrigger>
-
-              <SheetContent side={"left"}>
-                <SheetHeader>
-                  <SheetTitle className="font-bold text-xl">
-                    Shadcn/React
-                  </SheetTitle>
-                </SheetHeader>
-                <nav className="flex flex-col justify-center items-center gap-2 mt-4">
-                  {routeList.map(({ href, label }: RouteProps) => (
-                    <a
-                      rel="noreferrer noopener"
-                      key={label}
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className={buttonVariants({ variant: "ghost" })}
-                    >
-                      {label}
-                    </a>
-                  ))}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-                    target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
-                      variant: "secondary",
-                    })}`}
-                  >
-                    <GitHubLogoIcon className="mr-2 w-5 h-5" />
-                    Github
-                  </a>
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </span>
-
-          {/* desktop */}
-          <nav className="hidden md:flex gap-2">
-            {routeList.map((route: RouteProps, i) => (
+          <nav className="hidden md:flex items-center gap-6">
+            {routes.map(({ href, label }, i) => (
               <a
-                rel="noreferrer noopener"
-                href={route.href}
-                key={i}
-                className={`text-[17px] ${buttonVariants({
-                  variant: "ghost",
-                })}`}
+                key={href}
+                href={href}
+                className="font-mono text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
               >
-                {route.label}
+                <span className="text-[10px] opacity-60">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden md:flex gap-2">
-            <a
-              rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-              target="_blank"
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
-              <GitHubLogoIcon className="mr-2 w-5 h-5" />
-              Github
-            </a>
-
+          <div className="flex items-center gap-1">
             <ModeToggle />
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger
+                className="md:hidden px-2 py-1 text-muted-foreground hover:text-foreground"
+                aria-label="Menu"
+              >
+                <Menu className="h-5 w-5" />
+              </SheetTrigger>
+              <SheetContent side="right">
+                <SheetHeader>
+                  <SheetTitle className="font-display text-2xl tracking-tighter flex items-center gap-2">
+                    <Logo size={24} className="text-foreground" />
+                    Noddle
+                  </SheetTitle>
+                </SheetHeader>
+                <nav className="flex flex-col gap-1 mt-8">
+                  {routes.map(({ href, label }, i) => (
+                    <a
+                      key={href}
+                      href={href}
+                      onClick={() => setIsOpen(false)}
+                      className="font-mono text-sm py-2 flex items-center gap-3 text-muted-foreground hover:text-foreground"
+                    >
+                      <span className="text-xs opacity-60">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {label}
+                    </a>
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
-        </NavigationMenuList>
-      </NavigationMenu>
+        </div>
+      </div>
     </header>
   );
 };

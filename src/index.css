@@ -1,66 +1,145 @@
-html {
-  scroll-behavior: smooth;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* "Graphite & Ochre" — warm-tinted graphite base, single ochre accent. */
+@layer base {
+  :root {
+    /* Light — parchment, ink, deeper ochre */
+    --background: 42 30% 94%;        /* #F5F2EA parchment */
+    --foreground: 220 18% 12%;       /* #1A1D24 deep ink */
+    --card: 0 0% 100%;
+    --card-foreground: 220 18% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 18% 12%;
+
+    --primary: 38 70% 40%;           /* #B07B1F deeper ochre */
+    --primary-foreground: 42 30% 94%;
+
+    --secondary: 42 22% 88%;
+    --secondary-foreground: 220 18% 12%;
+    --muted: 42 24% 90%;
+    --muted-foreground: 40 10% 39%;  /* #6B6859 warm dark gray */
+    --accent: 42 22% 88%;
+    --accent-foreground: 220 18% 12%;
+
+    --destructive: 8 65% 48%;
+    --destructive-foreground: 42 30% 94%;
+
+    --border: 42 20% 84%;
+    --input: 42 20% 84%;
+    --ring: 38 70% 40%;
+
+    --radius: 0.375rem;
+  }
+
+  .dark {
+    /* Dark — graphite, warm cream, ochre */
+    --background: 220 15% 7%;        /* #0E1015 graphite */
+    --foreground: 42 22% 88%;        /* #E8E4D8 warm cream-white */
+    --card: 222 15% 11%;             /* #161922 slate elevation */
+    --card-foreground: 42 22% 88%;
+    --popover: 222 15% 11%;
+    --popover-foreground: 42 22% 88%;
+
+    --primary: 38 67% 54%;           /* #D89A3C ochre */
+    --primary-foreground: 220 15% 7%;
+
+    --secondary: 222 13% 14%;
+    --secondary-foreground: 42 22% 88%;
+    --muted: 222 13% 14%;
+    --muted-foreground: 40 8% 56%;   /* warm gray, readable */
+    --accent: 222 13% 14%;
+    --accent-foreground: 42 22% 88%;
+
+    --destructive: 8 60% 52%;
+    --destructive-foreground: 42 22% 88%;
+
+    --border: 222 14% 17%;           /* #252934 subtle */
+    --input: 222 14% 17%;
+    --ring: 38 67% 54%;
+  }
 }
 
-/* HeroCards background shadow */
-.shadow {
-  position: absolute;
-  background: hsl(var(--primary) / 0%);
-  border-radius: 24px;
-  rotate: 35deg;
-  z-index: -1;
-  width: 260px;
-  top: 200px;
-  height: 400px;
-  filter: blur(150px);
-  will-change: transform;
-  animation: shadow-slide infinite 4s linear alternate;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "ss02", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ambient ochre glow at the top of the page. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 900px 700px at 50% -10%,
+        hsl(var(--primary) / 0.07),
+        transparent 60%
+      );
+  }
+
+  .font-display {
+    font-family: 'Geist', system-ui, sans-serif;
+    font-feature-settings: "ss01", "ss03", "cv11";
+    letter-spacing: -0.03em;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+    color: hsl(var(--foreground));
+  }
 }
 
-@keyframes shadow-slide {
-  from {
-    background: hsl(var(--primary) / 20%);
-    right: 460px;
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground;
   }
-  to {
-    background: hsl(var(--primary) / 80%);
-    right: 160px;
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.35s ease;
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
   }
 }
 
-@media (max-width: 1024px) {
-  .shadow {
-    top: 70px;
+/* Soft pulse for the LIVE indicator. */
+@keyframes live-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.6);
   }
-
-  @keyframes shadow-slide {
-    from {
-      background: hsl(var(--primary) / 20%);
-      right: 460px;
-    }
-    to {
-      background: hsl(var(--primary) / 50%);
-      right: 160px;
-    }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 4px hsl(var(--primary) / 0);
   }
 }
 
-@media (max-width: 768px) {
-  .shadow {
-    top: 70px;
-    width: 100px;
-    height: 350px;
-    filter: blur(60px);
-  }
+.animate-live-pulse {
+  animation: live-pulse 1.8s ease-in-out infinite;
+}
 
-  @keyframes shadow-slide {
-    from {
-      background: hsl(var(--primary) / 20%);
-      right: 280px;
-    }
-    to {
-      background: hsl(var(--primary) / 30%);
-      right: 100px;
-    }
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-live-pulse {
+    animation: none;
   }
 }

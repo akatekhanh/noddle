@@ -12,10 +12,15 @@ module.exports = {
       center: true,
       padding: "1.5rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1480px",
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Geist', "system-ui", "sans-serif"],
+        mono: ['"Geist Mono"', "ui-monospace", "monospace"],
+        display: ['Geist', "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -55,6 +60,10 @@ module.exports = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      letterSpacing: {
+        tightest: "-0.04em",
+        tighter: "-0.025em",
       },
       keyframes: {
         "accordion-down": {
