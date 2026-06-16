@@ -1,0 +1,19 @@
+# Deploy config for Netlify (static host on a LinkedIn-reachable CDN).
+# Reason for moving off Railway: LinkedIn's crawler cannot establish a
+# connection to Railway's edge IPs for this domain (Post Inspector reports
+# "Unable to connect to server. Bad DNS, bad gateway" with a status-0 redirect
+# trail), even though the site is reachable from browsers, curl, and cloud
+# fetchers. Netlify's CDN is well-peered and crawlable by LinkedInBot.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback: every route returns index.html with 200 (never 206/404),
+# which strict link crawlers require.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
